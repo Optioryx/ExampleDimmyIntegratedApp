@@ -16,7 +16,10 @@ struct ContentView: View {
                     // if they actually want to open another app so this is less seamless)
                     // App Links: https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app
                     // Custom URL type: https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app
-                    callbackBaseUrl: "https://dimmy.api.optioryx.com/callback"
+                    callbackBaseUrl: "https://dimmy.api.optioryx.com/callback",
+                    // Optionally provide a (bar)code, so the resulting scans
+                    // can be identified on the Dimmy platform
+                    code: "ABCD1234"
                 )
             })
         }
@@ -44,12 +47,12 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
-
-func openDimmy(flowId: String, callbackBaseUrl: String) {
-    guard let url = URL(string: "https://dimmy.api.optioryx.com/open?flow=\(flowId)&callback=\(Base64.encode(callbackBaseUrl))") else {
+func openDimmy(flowId: String, callbackBaseUrl: String, code: String? = nil) {
+    var rawUrl = "https://dimmy.api.optioryx.com/open?flow=\(flowId)&callback=\(Base64.encode(callbackBaseUrl))"
+    if let code = code {
+        rawUrl = "\(rawUrl)&code=\(code)"
+    }
+    guard let url = URL(string: rawUrl) else {
         return
     }
     UIApplication.shared.open(url)
