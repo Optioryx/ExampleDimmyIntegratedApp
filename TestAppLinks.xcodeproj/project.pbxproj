@@ -14,6 +14,7 @@
 		23F9990F2BE0E08600A61F40 /* TestAppLinksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F9990E2BE0E08600A61F40 /* TestAppLinksTests.swift */; };
 		23F999192BE0E08600A61F40 /* TestAppLinksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F999182BE0E08600A61F40 /* TestAppLinksUITests.swift */; };
 		23F9991B2BE0E08600A61F40 /* TestAppLinksUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F9991A2BE0E08600A61F40 /* TestAppLinksUITestsLaunchTests.swift */; };
+		23F9992A2BE0FA6D00A61F40 /* Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F999292BE0FA6D00A61F40 /* Base64.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		23F999142BE0E08600A61F40 /* TestAppLinksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestAppLinksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		23F999182BE0E08600A61F40 /* TestAppLinksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAppLinksUITests.swift; sourceTree = "<group>"; };
 		23F9991A2BE0E08600A61F40 /* TestAppLinksUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAppLinksUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		23F999292BE0FA6D00A61F40 /* Base64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base64.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				23F999002BE0E08600A61F40 /* Assets.xcassets */,
 				23F999022BE0E08600A61F40 /* TestAppLinks.entitlements */,
 				23F999032BE0E08600A61F40 /* Preview Content */,
+				23F999292BE0FA6D00A61F40 /* Base64.swift */,
 			);
 			path = TestAppLinks;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				23F998FF2BE0E08500A61F40 /* ContentView.swift in Sources */,
+				23F9992A2BE0FA6D00A61F40 /* Base64.swift in Sources */,
 				23F998FD2BE0E08500A61F40 /* TestAppLinksApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
