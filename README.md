@@ -8,6 +8,8 @@ Example Application Integrating with Dimmy On-device
 
 This example application demonstrates how to integrate Dimmy directly on-device, enabling you to invoke a flow within Dimmy and retrieve results without relying on a REST API. This streamlined approach processes data locally and can be used to seamlessly integrate with an existing WMS app.
 
+https://github.com/Optioryx/ExampleDimmyIntegratedApp/assets/1020128/329ae1ff-6016-4278-896e-8123d4fdbe08
+
 For a practical implementation, explore the sample code in [ContentView.swift](https://github.com/Optioryx/ExampleDimmyIntegratedApp/blob/main/TestAppLinks/ContentView.swift). The sample provided in this repository showcases how to configure and trigger Dimmy scans within a SwiftUI application. Our REST API documentation provides further insights into the data schema: [Dimmy API Documentation](https://docs.optioryx.com/docs/dimmy-api/latest/get-items-items-get).
 
 Demo App Overview
