@@ -5,10 +5,24 @@
 
 Example Application Integrating with Dimmy On-device
 ====================================================
-
 This example application demonstrates how to integrate Dimmy directly on-device, enabling you to invoke a flow within Dimmy and retrieve results without relying on a REST API. This streamlined approach processes data locally and can be used to seamlessly integrate with an existing WMS app.
 
 For a practical implementation, explore the sample code in [ContentView.swift](https://github.com/Optioryx/ExampleDimmyIntegratedApp/blob/main/TestAppLinks/ContentView.swift). The sample provided in this repository showcases how to configure and trigger Dimmy scans within a SwiftUI application. Our REST API documentation provides further insights into the data schema: [Dimmy API Documentation](https://docs.optioryx.com/docs/dimmy-api/latest/get-items-items-get).
+
+Summary
+--------------------------
+App-to-app integration works by leveraging iOS's ability to open apps using links. We registered a public url (`https://dimmy.api.optioryx.com/open`) with Apple that enables your app to open Dimmy in a specific state without requiring user intervention, as if you were redirecting them to a website (e.g. using `UIApplication.shared.open`). You can specify what data has to be gathered and how it where be returned by setting the query string for this URL. The available parameters are documented in the below table.
+
+
+| Query parameter                         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| flow (string)                         | Identifier of the Dimmy flow that is going to be shown to the user. This flow needs to exist for the logged in account. Flows can be created and configured [in the webapp](https://dimmy.app.optioryx.com/flow-builder). Pass "default" to use the flow configured in the device's local settings.                                                                                                                                                |
+| callback (**Base64 encoded** string) | After the user completes the data gathering flow initiated by your call, it will get redirected to this URL. The results of the scanning flow will be returned as query parameter `response` attached to this URL. This response is a **Base64 encoded** JSON string with the `Item` schema as defined in our [API documentation](https://docs.optioryx.com/docs/dimmy-api/latest/get-items-items-get). **Important:** you need to Base64 encode this URL. |
+| code (string)                           | This parameter is optional. If a code is supplied (because e.g. the calling app already knows it), the application will inject it as the main barcode for the item. This is useful to be identify the scanned object in the Dimmy webapp and REST API.                                                         
+
+After the Dimmy flow initiated by your URL is finished, the user will automatically be redirected back to your app using the callback URL that you pass. The data captured using Dimmy is returned in query parameter `response` as a **Base64 encoded** JSON string which your [app can read out when it is called via URL](https://www.avanderlee.com/swiftui/deeplink-url-handling/#handling-incoming-deeplinks). For this to work, you will have to either [register a public URL with Apple (universal links) or create a custom URL scheme for your app (deep links)](#choosing-between-universal-links-and-deep-links). Below sequence diagram illustrates the entire communication between Dimmy and your app.
+
+![Sequence diagram](img/sequence.svg)
 
 Demo App Overview
 --------------------------
