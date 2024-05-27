@@ -13,7 +13,7 @@ For a practical implementation, explore the sample code in [ContentView.swift](h
 
 Summary
 --------------------------
-App-to-app integration works by leveraging iOS's ability to open apps using links. We registered a public url (`https://dimmy.api.optioryx.com/open`) with Apple that enables your app to open Dimmy in a specific state without requiring user intervention, as if you were redirecting them to a website (e.g. using `UIApplication.shared.open`). You can specify what data has to be gathered and how it where be returned by setting the query string for this URL. The available parameters are documented in the below table.
+App-to-app integration works by leveraging iOS's [ability to open apps using links](https://developer.apple.com/documentation/xcode/allowing-apps-and-websites-to-link-to-your-content). We registered a public url (`https://dimmy.api.optioryx.com/open`) with Apple that enables your app to open Dimmy in a specific state without requiring user intervention, as if you were redirecting them to a website (e.g. using `UIApplication.shared.open`). You can specify what data has to be gathered and how it where be returned by setting the query string for this URL. The available parameters are documented in the below table.
 
 
 | Query parameter                         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                               |
