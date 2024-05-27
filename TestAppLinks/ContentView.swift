@@ -12,6 +12,7 @@ struct ContentView: View {
                     // Dimmy webapp
                     flowId: "default",
                     // Replace this with your own registered callback url
+                    // to open your app again after completing the flow.
                     // (or custom URL type, but this will prompt the user
                     // if they actually want to open another app so this is less seamless)
                     // App Links: https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app
