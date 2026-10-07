@@ -23,7 +23,7 @@ Requirements
 
 - **Flux for iOS <!-- MIN_FLUX_VERSION: fill in at release -->** or later, installed on the same iPhone as your app.
 - An operator **logged into Flux** on that iPhone.
-- The **flow id** of the flow to run. Build the flow in the [Flux web app](https://flux.optioryx.com), then **ask Optioryx for its flow id**: the web app does not show this id yet, and it is *not* the id in the web app's address bar.
+- The **name** of the flow to run, built in the [Flux web app](https://flux.optioryx.com). To go straight to measuring, make a flow with just one dimensioning step.
 - Xcode 26 to build this example.
 
 Quick start
@@ -31,7 +31,7 @@ Quick start
 
 1. Open `FluxIntegrationExample.xcodeproj` in Xcode. Under *Signing & Capabilities*, pick your own team (and change the bundle id if Xcode asks).
 2. Run the app on an iPhone that has Flux installed and logged in. The simulator cannot run Flux.
-3. Paste your flow id, optionally type a barcode, and tap **Start scan in Flux**. Run the flow in Flux; when you finish it, Flux switches back to the example and shows the result.
+3. Type your flow's name exactly as in the web app, optionally type a barcode, and tap **Start scan in Flux**. Run the flow in Flux; when you finish it, Flux switches back to the example and shows the result.
 
 To use this in your own app, copy [`FluxLink.swift`](FluxIntegrationExample/FluxLink.swift) into it. It has no dependencies and does all the encoding for you. [`ContentView.swift`](FluxIntegrationExample/ContentView.swift) shows how to call it.
 
@@ -43,16 +43,16 @@ The link contract
 Your app opens this link with `UIApplication.shared.open(_:)` (or SwiftUI's `openURL`). iOS hands it straight to Flux.
 
 ```
-https://flux.api.optioryx.com/open?flowId=<flow id>&callback=<your URL>&code=<barcode>
+https://flux.api.optioryx.com/open?flowName=<flow name>&callback=<your URL>&code=<barcode>
 ```
 
 | Parameter | Required | Meaning |
 |---|---|---|
-| `flowId` | yes | The id of the flow to run, supplied by Optioryx. It does not change when the flow is edited or renamed. |
+| `flowName` | yes | The name of the flow to run, exactly as in the Flux web app (upper and lower case matter). |
 | `callback` | no | The URL Flux opens when it is done, as a normal URL in the query (percent-encoded, as every URL library does for you). Without it, the flow ends on Flux's own end screen and your app gets nothing back. |
 | `code` | no | A barcode your app already knows, for example the order or SKU being measured. Flux stores it on the captured item so you can find the item later in the Flux web app and API. It does not skip or fill in a barcode step of the flow. |
 
-`FluxLink.openURL(flowId:callback:code:)` builds this link for you.
+`FluxLink.openURL(flowName:callback:code:)` builds this link for you.
 
 ### The result
 
@@ -68,9 +68,9 @@ Error reasons:
 
 | `error` | Meaning |
 |---|---|
-| `invalid_request` | The link has no `flowId`. (If `callback` itself is not a valid URL, Flux cannot answer at all.) |
+| `invalid_request` | The link has no `flowName`. (If `callback` itself is not a valid URL, Flux cannot answer at all.) |
 | `not_logged_in` | Nobody is logged into Flux on this iPhone. Ask the operator to log in and try again. |
-| `flow_unavailable` | Flux does not know this flow: wrong id, a flow of another account, a flow with no steps, or a flow that needs a newer Flux version. |
+| `flow_unavailable` | Flux does not know this flow: a typo in the name, a flow of another account, a flow with no steps, or a flow that needs a newer Flux version. |
 
 `response` is the captured item as JSON, encoded as **base64url** (Base64 with `-` and `_` instead of `+` and `/`, and no `=` padding, so it survives inside a URL unchanged). `FluxLink.Result(url:)` decodes it:
 
@@ -115,7 +115,8 @@ Good to know:
 Known limits
 ------------
 
-- The flow id is not shown in the Flux web app yet; Optioryx supplies it.
+- **Renaming a flow** in the web app breaks every link that uses its old name. Give integration flows a name you will keep.
+- If two flows have the **same name**, Flux opens one of them. Keep integration flow names unique.
 - Photos may still be uploading when the result arrives.
 - Signatures are included as image data, which makes the result URL large.
 - If the operator **pauses** a flow that your app started, your app gets no result for it.
@@ -130,7 +131,7 @@ sequenceDiagram
     participant App as Your app
     participant Flux as Flux iOS
     participant API as Flux backend
-    App->>Flux: https://flux.api.optioryx.com/open?flowId=…&callback=…&code=…
+    App->>Flux: https://flux.api.optioryx.com/open?flowName=…&callback=…&code=…
     Note over Flux: the operator runs the flow
     Flux-->>API: uploads the item (in the background)
     Flux->>App: callback?status=completed&response=<base64url JSON>
@@ -146,7 +147,7 @@ The 2024 version of this example used an older link format that current Flux ver
 | 2024 | Now |
 |---|---|
 | `https://dimmy.api.optioryx.com/open` | `https://flux.api.optioryx.com/open` |
-| `flow=<flow name>`, or `flow=default` | `flowId=<flow id>` |
+| `flow=<flow name>`, or `flow=default` | `flowName=<flow name>` (no `default`) |
 | `callback` Base64-encoded | `callback` as a normal (percent-encoded) URL |
 | Only a `response` on success; nothing on cancel or error | Always a `status`; `response` on success |
 | `response` in standard Base64 | `response` in base64url |

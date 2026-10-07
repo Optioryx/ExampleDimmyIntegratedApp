@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    /// The id of a flow in your Flux account, supplied by Optioryx.
-    @AppStorage("flowId") private var flowId = ""
+    /// The name of a flow in your Flux account, exactly as in the Flux web app.
+    @AppStorage("flowName") private var flowName = ""
     /// Optional: a barcode your app already knows, stored on the Flux item.
     @State private var code = ""
     @State private var result: FluxLink.Result?
@@ -15,14 +15,14 @@ struct ContentView: View {
         NavigationStack {
             Form {
                 Section("Request") {
-                    TextField("Flow id", text: $flowId)
+                    TextField("Flow name", text: $flowName)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                     TextField("Barcode (optional)", text: $code)
                     Button("Start scan in Flux") {
-                        openURL(FluxLink.openURL(flowId: flowId, callback: callback, code: code.isEmpty ? nil : code))
+                        openURL(FluxLink.openURL(flowName: flowName, callback: callback, code: code.isEmpty ? nil : code))
                     }
-                    .disabled(flowId.isEmpty)
+                    .disabled(flowName.isEmpty)
                 }
 
                 if let result {
