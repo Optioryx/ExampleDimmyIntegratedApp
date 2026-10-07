@@ -7,11 +7,11 @@ struct FluxLinkTests {
     // MARK: opening Flux
 
     @Test func openURL_encodesEveryParameter() throws {
-        let url = FluxLink.openURL(flowId: "65f0c1", callback: URL(string: "myapp://flux?order=A+1&x=y")!, code: "BOX 7")
+        let url = FluxLink.openURL(flowName: "Inbound pallets", callback: URL(string: "myapp://flux?order=A+1&x=y")!, code: "BOX 7")
         let items = try #require(URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems)
         #expect(url.host == "flux.api.optioryx.com")
         #expect(url.path == "/open")
-        #expect(items.first { $0.name == "flowId" }?.value == "65f0c1")
+        #expect(items.first { $0.name == "flowName" }?.value == "Inbound pallets")
         #expect(items.first { $0.name == "callback" }?.value == "myapp://flux?order=A+1&x=y")
         #expect(items.first { $0.name == "code" }?.value == "BOX 7")
         // "+", "&", "?" inside the callback must not leak into Flux's own query.
@@ -20,7 +20,7 @@ struct FluxLinkTests {
     }
 
     @Test func openURL_omitsMissingCode() {
-        let url = FluxLink.openURL(flowId: "f", callback: URL(string: "myapp://r")!)
+        let url = FluxLink.openURL(flowName: "f", callback: URL(string: "myapp://r")!)
         #expect(!url.absoluteString.contains("code="))
     }
 

@@ -9,15 +9,15 @@ enum FluxLink {
     /// set this to "flux-dev.api.optioryx.com".
     static let host = "flux.api.optioryx.com"
 
-    /// The link that opens Flux on `flowId`. Pass it to `UIApplication.shared.open`
-    /// (or SwiftUI's `openURL`).
-    static func openURL(flowId: String, callback: URL, code: String? = nil) -> URL {
+    /// The link that opens Flux on the flow named `flowName` (exactly as in the
+    /// Flux web app). Pass it to `UIApplication.shared.open` (or SwiftUI's `openURL`).
+    static func openURL(flowName: String, callback: URL, code: String? = nil) -> URL {
         var components = URLComponents()
         components.scheme = "https"
         components.host = host
         components.path = "/open"
         components.queryItems = [
-            URLQueryItem(name: "flowId", value: flowId),
+            URLQueryItem(name: "flowName", value: flowName),
             URLQueryItem(name: "callback", value: callback.absoluteString),
         ] + (code.map { [URLQueryItem(name: "code", value: $0)] } ?? [])
         // URLComponents leaves "+" alone, but many URL parsers read it as a space.
