@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    /// The `_id` of a flow in your Flux account (web app, flow builder).
+    /// The id of a flow in your Flux account, supplied by Optioryx.
     @AppStorage("flowId") private var flowId = ""
     /// Optional: a barcode your app already knows, stored on the Flux item.
     @State private var code = ""
